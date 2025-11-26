@@ -15,3 +15,5 @@ Some works individual and group from university. <br>
   <li>Node.js</li>
   <li>Ionic</li>
 </ul>
+
+Some projects are not available due to data protection.

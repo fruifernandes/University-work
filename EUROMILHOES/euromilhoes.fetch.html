@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Euromilhões</title>
+
+    <style>
+        ul.numeros, ul.estrelas {
+            display: inline-block;
+        }
+
+        div.chave li {
+            display: inline-block;
+            width:40px;
+            height: 40px;
+            margin: 4px;
+            font-size: 32px;
+            text-align: center;
+            border-style: solid;
+            border-color: black;
+            border-radius: 21px;
+
+        }
+
+        div.chave ul.numeros li {
+            background-color: pink;
+        }
+
+        div.chave ul.estrelas li {
+            background-color: yellow;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="cabeca">
+        <h1>EuroMilhões DWM 1819</h1>
+    </div>
+    <div id="controlo">
+        <button id="bobter">Obter Chave</button>
+        <button id="blimpa">Limpar Chaves</button>
+    </div>
+    <div id="conteudo">
+        <div class="chave">
+            <ul class="numeros">
+                <li>2</li>
+                <li>9</li>
+                <li>13</li>
+                <li>22</li>
+                <li>45</li>
+            </ul>
+            <ul class="estrelas">
+                <li>5</li>
+                <li>12</li>
+            </ul>
+        </div>
+    </div>
+    <div id="rodape">
+        50% dos lucros são pró Prof.
+    </div>
+</body>
+<script>
+    var estrelas = new Array();
+    var numeros = [2,8,12,45,50];
+
+    estrelas.push(2);
+    estrelas.push(3);
+
+    var bobter = document.getElementById("bobter");
+    var blimpa = document.getElementById("blimpa");
+    
+    // bgera.onclick = mostraVars;
+    // bobter.addEventListener("click",mostraVars);
+    bobter.addEventListener("click",obterChave);
+
+    blimpa.addEventListener("click", function () {
+        divConteudo = document.getElementById("conteudo");
+        console.log(divConteudo.innerHTML);
+        divConteudo.innerHTML = "";
+    });
+
+    function mostraVars() {
+        console.log("estrelas", estrelas);
+        console.log("numeros", numeros);
+    }
+
+    function geraAleatorio(num,min,max) {
+        var aleatorio = new Array();
+
+        // gerar 'num' numeros aleatorios
+        for (let i=0; i < num; i++) {
+            aleatorio[i] = min + Math.floor(Math.random() * (max-min+1));
+        }
+
+        return aleatorio;
+    }
+
+   function geraAleatorio2(num,min,max) {
+        var aleatorio = new Array();
+
+        // gerar 'num' numeros aleatorios diferentes
+        while(aleatorio.length < num) {
+            novo = min + Math.floor(Math.random() * (max-min+1));
+            if (!aleatorio.includes(novo)) {
+                aleatorio.push(novo);
+            }
+        }
+        
+        aleatorio.sort(ordena);
+
+        return aleatorio;
+    }
+
+    function ordena(a,b) {
+        return(a-b);
+    }
+
+    function obterChave() {
+
+        fetch('http://62.28.241.149/~pmoreira/KEYSERVER/KeyServerJSON.php')
+            .then(function (resposta) {
+                return resposta.json();})
+            .then (function (chave) {
+                console.log(chave);
+                var novaChaveHTML = geraChaveHTML(chave.numbers,chave.stars);
+                divConteudo = document.getElementById("conteudo");
+                divConteudo.appendChild(novaChaveHTML);
+            })
+    }
+
+    function geraChave() {
+        console.log("Olá");
+        //bgera.removeEventListener("click",dizOla);
+
+        numeros = geraAleatorio2(5,1,50);
+        estrelas = geraAleatorio2(2,1,12);
+        var novaChaveHTML = geraChaveHTML(numeros,estrelas);
+        divConteudo = document.getElementById("conteudo");
+        divConteudo.appendChild(novaChaveHTML);
+    }
+
+    function geraChaveHTML (anumeros,aestrelas) {
+        // criar o div da classe chave
+
+        var newDiv = document.createElement("div");
+        newDiv.className = "chave";
+
+        var newULnumeros = document.createElement("ul");
+        newULnumeros.className = "numeros";
+
+        var newULestrelas = document.createElement("ul");
+        newULestrelas.className = "estrelas";
+
+        newDiv.appendChild(newULnumeros);
+        newDiv.appendChild(newULestrelas);
+
+        anumeros.forEach(element => {
+            var newLI = document.createElement("li");
+            newLI.innerHTML = element;
+            newULnumeros.appendChild(newLI);
+        });
+
+        for (let i=0; i < aestrelas.length; i++) {
+            var newLI = document.createElement("li");
+            newLI.innerHTML = aestrelas[i];
+            newULestrelas.appendChild(newLI);
+        }
+        console.log(newDiv);
+        return newDiv;
+    }
+
+</script>
+</html>

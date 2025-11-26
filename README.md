@@ -5,6 +5,7 @@ Some works individual and group from university. <br>
   <li>CSS</li>
   <li>JavaScript</li>
   <li>PHP</li>
+  <li>Angular</li>
 </ul>
 <strong>Tools/frameworks ​​used:</strong>
 <ul>
@@ -12,4 +13,5 @@ Some works individual and group from university. <br>
   <li>Bootstrao</li>
   <li>MDN</li>
   <li>Node.js</li>
+  <li>Ionic</li>
 </ul>
